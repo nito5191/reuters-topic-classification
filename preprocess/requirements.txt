@@ -1,0 +1,10 @@
+certifi==2019.11.28
+html==1.16
+nltk==3.2.1
+numpy==1.16.6
+pandas==0.24.2
+python-dateutil==2.8.1
+pytz==2020.1
+scikit-learn==0.17.1
+scipy==0.17.0
+six==1.15.0
