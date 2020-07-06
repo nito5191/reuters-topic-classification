@@ -17,3 +17,6 @@ Select GPU runtime
 Run the cells under "Install dependencies" and then restart runtime
 Upload the dataset to the colab notebook (see comments)
 Run the rest of the cells
+
+## Results
+Using 66 most common topics and the "lewissplit" training/test set split, a _ model gave this result after _ epoch of training:

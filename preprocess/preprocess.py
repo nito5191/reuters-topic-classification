@@ -10,3 +10,4 @@ if not os.path.exists(dir_name):
     os.makedirs(dir_name)
 
 df.to_pickle(dir_name + '/dataset.plk')
+print(dir_name + '/dataset.plk' + ' written')
