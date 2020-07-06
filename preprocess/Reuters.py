@@ -42,6 +42,7 @@ class ReutersParser(sgmllib.SGMLParser):
         self.body = ""
         self.topics = []
         self.topic_d = ""
+        self.lewissplit = ""
 
     def parse(self, fd):
         self.docs = []
@@ -61,11 +62,16 @@ class ReutersParser(sgmllib.SGMLParser):
             self.topic_d += data
 
     def start_reuters(self, attributes):
+        #print('start_reuters a:', attributes)
+        for a in attributes:
+            if a[0] == 'lewissplit':
+                self.lewissplit = a[1]
         pass
 
     def end_reuters(self):
         self.body = re.sub(r'\s+', r' ', self.body)
-        self.docs.append({'title': self.title,
+        self.docs.append({'lewissplit' : self.lewissplit,
+                          'title': self.title,
                           'body': self.body,
                           'topics': self.topics})
         self._reset()
@@ -92,9 +98,10 @@ class ReutersParser(sgmllib.SGMLParser):
         self.in_topic_d = 1
 
     def end_d(self):
-        self.in_topic_d = 0
-        self.topics.append(self.topic_d)
-        self.topic_d = ""
+        if self.in_topics:
+            self.in_topic_d = 0
+            self.topics.append(self.topic_d)
+            self.topic_d = ""
 
 
 class ReutersStreamReader():
@@ -109,8 +116,7 @@ class ReutersStreamReader():
 
     """
 
-    DOWNLOAD_URL = ('http://archive.ics.uci.edu/ml/machine-learning-databases/'
-                    'reuters21578-mld/reuters21578.tar.gz')
+    DOWNLOAD_URL = ('http://www.daviddlewis.com/resources/testcollections/reuters21578/reuters21578.tar.gz')
     ARCHIVE_FILENAME = 'reuters21578.tar.gz'
 
     def __init__(self, data_path):
@@ -163,6 +169,6 @@ def get_minibatch(doc_iter, size):
             for doc in itertools.islice(doc_iter, size)
             if doc['topics']]
     if not len(data):
-	return DataFrame([])
+        return DataFrame([])
     else:
         return DataFrame(data, columns=['text', 'tags'])
