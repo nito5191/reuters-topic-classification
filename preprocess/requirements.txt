@@ -1,4 +1,4 @@
-certifi==2019.11.28
+certifi==2022.12.7
 html==1.16
 nltk==3.4.5
 numpy==1.16.6
